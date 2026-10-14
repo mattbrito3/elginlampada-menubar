@@ -1,0 +1,76 @@
+{
+  "name": "elgin-lampada",
+  "version": "0.1.0",
+  "description": "Aplicativo Electron para controlar uma lâmpada Elgin pela Tuya Cloud API.",
+  "main": "./out/main/index.js",
+  "author": "Elgin Lampada",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "electron-vite build",
+    "dist": "npm run typecheck && npm run build && electron-builder --win nsis portable",
+    "preview": "electron-vite preview",
+    "typecheck": "tsc --noEmit",
+    "lamp:test-local": "tsx scripts/test-local.ts",
+    "lamp:inspect-cloud": "tsx scripts/inspect-cloud.ts",
+    "lamp:test-cloud-power": "tsx scripts/test-cloud-power.ts",
+    "lamp:test-cloud-light": "tsx scripts/test-cloud-light.ts",
+    "lamp:restore-white": "tsx scripts/restore-white.ts"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "electron-log": "^5.4.0",
+    "tuya-cloud-api": "^2.0.0",
+    "tuyapi": "^7.7.1",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.8",
+    "@types/react-dom": "^19.0.3",
+    "@vitejs/plugin-react": "^4.3.4",
+    "electron": "^34.2.0",
+    "electron-builder": "^26.15.3",
+    "electron-vite": "^3.1.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tsx": "^4.19.3",
+    "typescript": "^5.7.3",
+    "vite": "^6.1.0"
+  },
+  "build": {
+    "appId": "com.elgin.lampada",
+    "productName": "Elgin Lampada",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "out/**/*",
+      "package.json",
+      "!**/*.map"
+    ],
+    "extraResources": [
+      {
+        "from": ".env.example",
+        "to": ".env.example"
+      }
+    ],
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "artifactName": "${productName}-${version}-${arch}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Elgin Lampada"
+    },
+    "portable": {
+      "artifactName": "${productName}-${version}-portable.${ext}"
+    }
+  }
+}
